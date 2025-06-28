@@ -22,10 +22,27 @@ spec:
     metadata:
       labels:
         app: proxy-service
+        app.kubernetes.io/name: {{ include "cinemaabyss.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      imagePullSecrets:
+        {{- range .Values.imagePullSecrets }}
+        - name: {{ .name }}
+        {{- end }}
       containers:
-      - name: proxy-service
-        ..... тут
+        - name: proxy-service
+          image: "{{ .Values.proxyService.image.repository }}:{{ .Values.proxyService.image.tag }}"
+          imagePullPolicy: {{ .Values.proxyService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.proxyService.service.targetPort }}
+          resources:
+  {{ toYaml .Values.proxyService.resources | indent 10 }}
+env:
+  {{- range .Values.proxyService.env }}
+- name: {{ .name }}
+  value: "{{ .value }}"
+  {{- end }}
+
 ---
 apiVersion: v1
 kind: Service
@@ -38,5 +55,10 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   selector:
-    ... и тут
-{{- end }}
+    app: proxy-service
+  type: {{ .Values.proxyService.service.type }}
+  ports:
+    - port: {{ .Values.proxyService.service.port }}
+      targetPort: {{ .Values.proxyService.service.targetPort }}
+      protocol: TCP
+  {{- end }}
