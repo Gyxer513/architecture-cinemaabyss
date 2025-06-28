@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-service
+  namespace: cinemaabyss
+  labels:
+    app: events-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-service
+  template:
+    metadata:
+      labels:
+        app: events-service
+    spec:
+      imagePullSecrets:
+        - name: dockerconfig
+      containers:
+        - name: events-service
+          image: ghcr.io/gyxer513/architecture-cinemaabyss/events-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: cinemaabyss-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-service
+  namespace: cinemaabyss
+spec:
+  selector:
+    app: events-service
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+  type: ClusterIP
