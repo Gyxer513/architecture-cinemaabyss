@@ -1,5 +1,9 @@
+# Для секрета!
+dockerconfigjson: "ew0KICAiYXV0aHMiOiB7DQogICAgImdoY3IuaW8iOiB7DQogICAgICAiYXV0aCI6ICJSM2w0WlhJMU1UTTZaMmh3WDBwSWNWVXdjR1JxUVRKV1YxaEtORlJOYzFVM1VrSkxiR1EyTjI0M1p6SnhVa04wVHc9PSINCiAgICB9DQogIH0NCn0NCg=="
+
+# Для деплойментов!
 imagePullSecrets:
-  dockerconfigjson: "ew0KICAiYXV0aHMiOiB7DQogICAgImdoY3IuaW8iOiB7DQogICAgICAiYXV0aCI6ICJSM2w0WlhJMU1UTTZaMmh3WDBwSWNWVXdjR1JxUVRKV1YxaEtORlJOYzFVM1VrSkxiR1EyTjI0M1p6SnhVa04wVHc9PSINCiAgICB9DQogIH0NCn0NCg=="
+  - name: dockerconfig
 # Global settings
 global:
   namespace: cinemaabyss
