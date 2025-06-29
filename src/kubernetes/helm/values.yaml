@@ -1,12 +1,9 @@
+imagePullSecrets:
+  dockerconfigjson: "ew0KICAiYXV0aHMiOiB7DQogICAgImdoY3IuaW8iOiB7DQogICAgICAiYXV0aCI6ICJSM2w0WlhJMU1UTTZaMmh3WDBwSWNWVXdjR1JxUVRKV1YxaEtORlJOYzFVM1VrSkxiR1EyTjI0M1p6SnhVa04wVHc9PSINCiAgICB9DQogIH0NCn0NCg=="
 # Global settings
 global:
   namespace: cinemaabyss
   domain: cinemaabyss.example.com
-  imagePullSecrets:
-    dockerconfigjson: "ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJSM2w0..."
-# Image pull secrets
-imagePullSecrets:
-  - name: dockerconfig
 # Database configuration
 database:
   host: postgres
