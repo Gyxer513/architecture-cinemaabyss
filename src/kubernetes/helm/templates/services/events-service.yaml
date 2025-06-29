@@ -36,12 +36,15 @@ spec:
           ports:
             - containerPort: {{ .Values.eventsService.service.targetPort }}
           resources:
+  {{ toYaml .Values.eventsService.resources | indent 12 }}
+  {{- if .Values.eventsService.env }}
+  resources:
   {{ toYaml .Values.eventsService.resources | indent 10 }}
 env:
   {{- range .Values.eventsService.env }}
-- name: {{ .name }}
-  value: "{{ .value }}"
-  {{- end }}
+  - name: {{ .name }}
+    value: "{{ .value }}"
+    {{- end }}
 
 ---
 apiVersion: v1
@@ -61,4 +64,5 @@ spec:
     - port: {{ .Values.eventsService.service.port }}
       targetPort: {{ .Values.eventsService.service.targetPort }}
       protocol: TCP
+  {{- end }}
   {{- end }}

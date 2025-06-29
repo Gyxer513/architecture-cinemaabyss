@@ -100,6 +100,9 @@ eventsService:
     tag: latest
     pullPolicy: Always
   replicas: 1
+  env:
+    - name: KAFKA_BROKERS
+      value: kafka:9092
   resources:
     limits:
       cpu: 300m
@@ -111,10 +114,6 @@ eventsService:
     port: 8082
     targetPort: 8082
     type: ClusterIP
-  eventsService:
-    env:
-      - name: KAFKA_BROKER
-        value: kafka:9092
 
 # Kafka configuration
 kafka:

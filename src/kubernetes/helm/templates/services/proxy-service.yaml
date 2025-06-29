@@ -34,9 +34,9 @@ spec:
           image: "{{ .Values.proxyService.image.repository }}:{{ .Values.proxyService.image.tag }}"
           imagePullPolicy: {{ .Values.proxyService.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.proxyService.service.targetPort }}
+          - containerPort: { { .Values.eventsService.service.targetPort } }
           resources:
-  {{ toYaml .Values.proxyService.resources | indent 10 }}
+  {{ toYaml .Values.proxyService.resources | indent 12 }}
 env:
   {{- range .Values.proxyService.env }}
 - name: {{ .name }}
