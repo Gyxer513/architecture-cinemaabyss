@@ -2,7 +2,8 @@
 global:
   namespace: cinemaabyss
   domain: cinemaabyss.example.com
-
+  imagePullSecrets:
+    dockerconfigjson: "ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJSM2w0..."
 # Image pull secrets
 imagePullSecrets:
   - name: dockerconfig
