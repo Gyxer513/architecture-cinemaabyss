@@ -34,13 +34,14 @@ spec:
           image: "{{ .Values.proxyService.image.repository }}:{{ .Values.proxyService.image.tag }}"
           imagePullPolicy: {{ .Values.proxyService.image.pullPolicy }}
           ports:
-          - containerPort: { { .Values.eventsService.service.targetPort } }
+            - containerPort: {{ .Values.proxyService.service.targetPort }}
           resources:
-  {{ toYaml .Values.proxyService.resources | indent 12 }}
+            {{- if .Values.proxyService.resources }}
+  {{ toYaml .Values.proxyService.resources | nindent 12 }}
+  {{- end }}
 env:
-  {{- range .Values.proxyService.env }}
-- name: {{ .name }}
-  value: "{{ .value }}"
+  {{- if .Values.proxyService.env }}
+  {{ toYaml .Values.proxyService.env | nindent 12 }}
   {{- end }}
 
 ---

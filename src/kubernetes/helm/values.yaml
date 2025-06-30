@@ -103,6 +103,8 @@ eventsService:
   env:
     - name: KAFKA_BROKERS
       value: kafka:9092
+    - name: KAFKAJS_NO_PARTITIONER_WARNING
+      value: "1"
   resources:
     limits:
       cpu: 300m
