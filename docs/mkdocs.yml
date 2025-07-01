@@ -1,0 +1,4 @@
+site_name: Cinemaabyss
+plugins:
+  - plantuml:
+      puml_url: https://www.plantuml.com/plantuml/

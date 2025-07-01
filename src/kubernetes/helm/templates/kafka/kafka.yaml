@@ -11,16 +11,16 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   ports:
-  - port: 2181
-    name: client
-  - port: 2888
-    name: server
-  - port: 3888
-    name: leader-election
+    - port: 2181
+      name: client
+    - port: 2888
+      name: server
+    - port: 3888
+      name: leader-election
   selector:
     app: zookeeper
 ---
-{{- if .Values.zookeeper.persistence.enabled }}
+  {{- if .Values.zookeeper.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -36,7 +36,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.zookeeper.persistence.size }}
-{{- end }}
+  {{- end }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -59,45 +59,45 @@ spec:
         app: zookeeper
     spec:
       containers:
-      - name: zookeeper
-        image: {{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}
-        imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
-        ports:
-        - containerPort: 2181
-          name: client
-        - containerPort: 2888
-          name: server
-        - containerPort: 3888
-          name: leader-election
-        resources:
-          {{- toYaml .Values.zookeeper.resources | nindent 10 }}
-        env:
-        - name: ZOOKEEPER_CLIENT_PORT
-          value: "2181"
-        - name: ZOOKEEPER_TICK_TIME
-          value: "2000"
-        volumeMounts:
-        - name: zookeeper-data
-          mountPath: /var/lib/zookeeper/data
-        readinessProbe:
-          tcpSocket:
-            port: 2181
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 2181
-          initialDelaySeconds: 30
-          periodSeconds: 15
+        - name: zookeeper
+          image: {{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}
+          imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+          ports:
+            - containerPort: 2181
+              name: client
+            - containerPort: 2888
+              name: server
+            - containerPort: 3888
+              name: leader-election
+          resources:
+            {{- toYaml .Values.zookeeper.resources | nindent 10 }}
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+            - name: ZOOKEEPER_TICK_TIME
+              value: "2000"
+          volumeMounts:
+            - name: zookeeper-data
+              mountPath: /var/lib/zookeeper/data
+          readinessProbe:
+            tcpSocket:
+              port: 2181
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 2181
+            initialDelaySeconds: 30
+            periodSeconds: 15
       {{- if .Values.zookeeper.persistence.enabled }}
       volumes:
-      - name: zookeeper-data
-        persistentVolumeClaim:
-          claimName: zookeeper-data
+        - name: zookeeper-data
+          persistentVolumeClaim:
+            claimName: zookeeper-data
       {{- else }}
       volumes:
-      - name: zookeeper-data
-        emptyDir: {}
+        - name: zookeeper-data
+          emptyDir: {}
       {{- end }}
 ---
 apiVersion: v1
@@ -111,12 +111,12 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   ports:
-  - port: 9092
-    name: kafka
+    - port: 9092
+      name: kafka
   selector:
     app: kafka
 ---
-{{- if .Values.kafka.persistence.enabled }}
+  {{- if .Values.kafka.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -132,7 +132,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.kafka.persistence.size }}
-{{- end }}
+  {{- end }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet

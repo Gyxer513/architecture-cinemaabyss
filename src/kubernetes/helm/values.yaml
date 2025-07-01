@@ -1,11 +1,13 @@
+# Для секрета!
+dockerconfigjson: "ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJSM2w0WlhJMU1UTTZaMmh3WDJaeE1EaHFjMjFuVUZJemVVTnRSVXBvUlZwS2JYcEpTR2hzZVVScVJUSkVNMWt6YWc9PSIKICAgIH0KICB9Cn0K"
+
+# Для деплойментов!
+imagePullSecrets:
+  - name: dockerconfig
 # Global settings
 global:
   namespace: cinemaabyss
   domain: cinemaabyss.example.com
-
-# Image pull secrets
-imagePullSecrets:
-  dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaGNyLmlvIjogewoJCQkiYXV0aCI6
 # Database configuration
 database:
   host: postgres
@@ -33,7 +35,7 @@ database:
 monolith:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/monolith
+    repository: ghcr.io/gyxer513/architecture-cinemaabyss/monolith
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -53,7 +55,7 @@ monolith:
 proxyService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/proxy-service
+    repository: ghcr.io/gyxer513/architecture-cinemaabyss/proxy-service
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -68,12 +70,13 @@ proxyService:
     port: 80
     targetPort: 8000
     type: ClusterIP
+  env: []
 
 # Movies service configuration
 moviesService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/movies-service
+    repository: ghcr.io/gyxer513/architecture-cinemaabyss/movies-service
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -93,10 +96,15 @@ moviesService:
 eventsService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/events-service
+    repository: ghcr.io/gyxer513/architecture-cinemaabyss/events-service
     tag: latest
     pullPolicy: Always
   replicas: 1
+  env:
+    - name: KAFKA_BROKERS
+      value: kafka:9092
+    - name: KAFKAJS_NO_PARTITIONER_WARNING
+      value: "1"
   resources:
     limits:
       cpu: 300m
